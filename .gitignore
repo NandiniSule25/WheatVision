@@ -1,0 +1,23 @@
+# Secrets and environment
+.env
+backend/.env
+
+# Virtual environment
+backend/.venv/
+.venv/
+
+# Database and uploads
+backend/instance/
+*.db
+*.sqlite3
+backend/uploads/*
+!backend/uploads/.gitkeep
+
+# Python
+__pycache__/
+*.pyc
+
+# Editor / OS
+.vscode/
+.DS_Store
+Thumbs.db

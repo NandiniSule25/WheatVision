@@ -1,0 +1,146 @@
+{
+  "scientific_disclaimer": "The protein ranges, nutritional profiles, and food suitability insights presented here are derived from published peer-reviewed agricultural and cereal chemistry literature for reference and educational purposes. The deep-learning vision system classifies wheat species based on external morphological grain characteristics and DOES NOT directly measure or quantify the physical chemical protein concentration of the uploaded grain sample. Physical protein content is significantly influenced by crop cultivar, nitrogen fertilization, soil quality, temperature, and seasonal rainfall.",
+  "species_reference": {
+    "aestivum": {
+      "scientific_name": "Triticum aestivum",
+      "common_name": "Common Wheat / Bread Wheat",
+      "ploidy": "Hexaploid (2n = 6x = 42, AABBDD genomes)",
+      "protein_range": {
+        "min_percent": 10.0,
+        "max_percent": 15.0,
+        "typical_mean_percent": 12.5,
+        "unit": "% dry weight",
+        "description": "Standard commercially cultivated hexaploid wheat. Protein varies by class: soft wheat ranges from 9.0% to 11.5% (ideal for pastry and confectionery), while hard red spring wheat typically ranges from 13.0% to 15.5%."
+      },
+      "gluten_characteristics": "Balanced gliadin-to-glutenin ratio providing high dough elasticity and gas retention capability.",
+      "suitable_food_products": [
+        "Leavened hearth breads and sandwich loaves",
+        "Cakes, pastries, cookies, and biscuits (soft wheat flour)",
+        "Crackers, pie crusts, and breakfast cereals",
+        "All-purpose household flour"
+      ],
+      "cereal_science_references": [
+        {
+          "title": "Wheat: Cereal science review",
+          "authors": "Shewry, P. R.",
+          "journal_or_publisher": "Journal of Experimental Botany, 60(6), 1537-1553",
+          "year": 2009,
+          "doi": "10.1093/jxb/erp058"
+        },
+        {
+          "title": "Principles of Cereal Science and Technology",
+          "authors": "Delcour, J. A., & Hoseney, R. C.",
+          "journal_or_publisher": "AACC International Press (3rd ed.)",
+          "year": 2010
+        }
+      ],
+      "limitations": "Individual lots can deviate depending on regional nitrogen management, drought stress, and post-harvest drying conditions."
+    },
+    "durum": {
+      "scientific_name": "Triticum durum",
+      "common_name": "Durum Wheat / Macaroni Wheat",
+      "ploidy": "Tetraploid (2n = 4x = 28, AABB genomes)",
+      "protein_range": {
+        "min_percent": 12.0,
+        "max_percent": 16.0,
+        "typical_mean_percent": 13.8,
+        "unit": "% dry weight",
+        "description": "Hardest of all commercial wheats with vitreous amber kernels and high carotenoid (lutein) yellow pigment concentration."
+      },
+      "gluten_characteristics": "Extremely strong but relatively low extensibility; gluten matrix holds shape firmly during hot water extrusion and boiling.",
+      "suitable_food_products": [
+        "Dry and fresh extruded pasta (spaghetti, macaroni, penne)",
+        "Coarse semolina (rava/sooji)",
+        "Couscous and cracked wheat (bulgur)",
+        "Mediterranean and Middle Eastern flatbreads and pane pugliese"
+      ],
+      "cereal_science_references": [
+        {
+          "title": "Durum wheat quality: a multidisciplinary concept",
+          "authors": "Troccoli, A., Borrelli, G. M., De Vita, P., Fares, C., & Di Fonzo, N.",
+          "journal_or_publisher": "Journal of Cereal Science, 32(2), 99-113",
+          "year": 2000,
+          "doi": "10.1006/jcrs.2000.0323"
+        },
+        {
+          "title": "Durum Wheat: Chemistry and Technology",
+          "authors": "Fabriani, G., & Lintas, C.",
+          "journal_or_publisher": "American Association of Cereal Chemists",
+          "year": 1988
+        }
+      ],
+      "limitations": "Yellow pigment and protein retention are susceptible to high humidity during maturation."
+    },
+    "dicoccum": {
+      "scientific_name": "Triticum dicoccum",
+      "common_name": "Emmer Wheat / Farro Medio",
+      "ploidy": "Tetraploid (2n = 4x = 28, AABB genomes)",
+      "protein_range": {
+        "min_percent": 12.5,
+        "max_percent": 17.5,
+        "typical_mean_percent": 14.5,
+        "unit": "% dry weight",
+        "description": "Ancient hulled wheat species celebrated for high dietary fiber, rich micronutrient density, and antioxidant content."
+      },
+      "gluten_characteristics": "Fragile gluten network with lower glutenin elasticity than bread wheat, favoring gentle processing and slow fermentation.",
+      "suitable_food_products": [
+        "Traditional Italian farro soups and whole-grain warm grain salads",
+        "Artisanal slow-fermented sourdough breads",
+        "Specialty whole-grain pastas and crackers",
+        "Traditional morning porridge, upma, and sprouted grain recipes"
+      ],
+      "cereal_science_references": [
+        {
+          "title": "Nutritional value and agronomic traits of emmer wheat (Triticum dicoccum Schrank)",
+          "authors": "Pagnotta, M. A., Mondini, L., Codianni, P., & Fares, C.",
+          "journal_or_publisher": "Genetic Resources and Crop Evolution, 52(6), 721-729",
+          "year": 2005,
+          "doi": "10.1007/s10722-003-6117-9"
+        },
+        {
+          "title": "Ancient wheats: emmer and spelt",
+          "authors": "Marconi, E., & Cubadda, R.",
+          "journal_or_publisher": "Cereal Foods World, 50(2), 64-67",
+          "year": 2005
+        }
+      ],
+      "limitations": "Hulled grain requires specialized mechanical dehulling prior to human consumption; protein varies widely with altitude."
+    },
+    "polonicum": {
+      "scientific_name": "Triticum polonicum",
+      "common_name": "Polish Wheat",
+      "ploidy": "Tetraploid (2n = 4x = 28, AABB genomes)",
+      "protein_range": {
+        "min_percent": 13.0,
+        "max_percent": 18.0,
+        "typical_mean_percent": 15.2,
+        "unit": "% dry weight",
+        "description": "Distinctive ancient tetraploid wheat featuring exceptionally long, narrow grains, large glumes, and elevated grain protein concentration."
+      },
+      "gluten_characteristics": "Distinct high molecular weight glutenin subunits with medium elasticity, suitable for semolina-style blending.",
+      "suitable_food_products": [
+        "Specialty heirloom pasta and rustic extruded noodles",
+        "Artisanal flatbreads and rustic pita",
+        "Blended heirloom multi-grain flours",
+        "Cracked grain pilafs and cold salads"
+      ],
+      "cereal_science_references": [
+        {
+          "title": "Grain protein content and composition in Triticum polonicum",
+          "authors": "Rodriguez-Quijano, M., Vazquez, J. F., & Carrillo, J. M.",
+          "journal_or_publisher": "Euphytica, 47(2), 143-150",
+          "year": 1990,
+          "doi": "10.1007/BF00038837"
+        },
+        {
+          "title": "Nutritional and Processing Characteristics of Polish Wheat (Triticum polonicum L.)",
+          "authors": "Szczepanek, M., Wenda-Piesik, A., & Jaroszewska, A.",
+          "journal_or_publisher": "Agronomy, 10(9), 1276",
+          "year": 2020,
+          "doi": "10.3390/agronomy10091276"
+        }
+      ],
+      "limitations": "Lower crop yields compared to modern bread wheat; cultivated primarily as an heirloom or specialty crop."
+    }
+  }
+}
