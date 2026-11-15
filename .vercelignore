@@ -1,0 +1,30 @@
+# Ignore heavy training models not used at inference (saves ~52 MB)
+backend/models/*.keras
+
+# Ignore virtual environments
+backend/.venv/
+.venv/
+
+# Ignore tests and local utilities
+backend/test_*.py
+backend/check_*.py
+backend/convert_models_colab.py
+backend/view_db.py
+
+# Ignore local database and environment secrets
+backend/.env
+backend/instance/
+instance/
+*.db
+*.sqlite3
+
+# Python bytecode
+__pycache__/
+*.pyc
+*.pyo
+
+# Git and OS
+.git
+.gitignore
+.DS_Store
+Thumbs.db

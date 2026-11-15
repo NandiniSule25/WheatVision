@@ -7,11 +7,10 @@ document.addEventListener("DOMContentLoaded", () => {
     // -----------------------------------------------------
     // API Configuration
     // -----------------------------------------------------
-    // Automatically use origin if served via Flask on :5000,
-    // or point to http://127.0.0.1:5000 if served via Live Server on :5500.
-    const API_BASE = window.location.origin.includes(":5000")
-        ? ""
-        : "http://127.0.0.1:5000";
+    // Use relative path "" in production (e.g. Vercel) or when served on Flask (:5000),
+    // and point to http://127.0.0.1:5000 only when testing locally via Live Server on a different port.
+    const isLocalDevServer = (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") && window.location.port !== "5000";
+    const API_BASE = isLocalDevServer ? "http://127.0.0.1:5000" : "";
 
     // -----------------------------------------------------
     // DOM Elements - Navigation & Core

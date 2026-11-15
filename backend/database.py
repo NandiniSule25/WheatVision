@@ -4,6 +4,7 @@ Handles SQLite connection pooling, schema initialization, and teardown.
 Safe to run repeatedly.
 """
 import os
+import tempfile
 import sqlite3
 from pathlib import Path
 from flask import g, current_app
@@ -12,8 +13,26 @@ BASE_DIR = Path(__file__).resolve().parent
 DEFAULT_DB_PATH = BASE_DIR / "instance" / "wheatvision.db"
 
 
+def get_temp_db_path():
+    """Return platform-safe temporary database path (/tmp on Linux/Vercel)."""
+    return Path(tempfile.gettempdir()) / "wheatvision.db"
+
+
 def get_db_path():
-    """Retrieve database path from Flask config or environment variable."""
+    """Retrieve database path from Flask config or environment variable.
+    
+    Falls back to temporary directory on Vercel or read-only serverless filesystems.
+    """
+    # Vercel and AWS Lambda serverless read-only detection
+    if os.getenv("VERCEL") or os.getenv("AWS_LAMBDA_FUNCTION_NAME"):
+        configured = None
+        if current_app:
+            configured = current_app.config.get("DATABASE_PATH")
+        configured = configured or os.getenv("DATABASE_PATH")
+        if configured and ("tmp" in str(configured) or Path(configured).is_absolute()):
+            return Path(configured)
+        return get_temp_db_path()
+
     if current_app:
         configured_path = current_app.config.get("DATABASE_PATH")
         if configured_path:
@@ -23,7 +42,13 @@ def get_db_path():
     if env_path:
         p = Path(env_path)
         return p if p.is_absolute() else (BASE_DIR / p).resolve()
-    return DEFAULT_DB_PATH
+
+    # Test if instance directory is writable; fallback to temp dir if read-only
+    try:
+        (BASE_DIR / "instance").mkdir(parents=True, exist_ok=True)
+        return DEFAULT_DB_PATH
+    except (OSError, PermissionError):
+        return get_temp_db_path()
 
 
 def get_db():
@@ -31,13 +56,19 @@ def get_db():
     if "db" not in g:
         db_path = get_db_path()
         db_path.parent.mkdir(parents=True, exist_ok=True)
+        need_init = not db_path.exists()
         g.db = sqlite3.connect(
             str(db_path),
             detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES
         )
         g.db.row_factory = sqlite3.Row
         g.db.execute("PRAGMA foreign_keys = ON;")
-        g.db.execute("PRAGMA journal_mode = WAL;")
+        try:
+            g.db.execute("PRAGMA journal_mode = WAL;")
+        except sqlite3.OperationalError:
+            pass
+        if need_init:
+            init_db(db_path)
     return g.db
 
 

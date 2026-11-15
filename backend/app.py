@@ -67,19 +67,33 @@ def create_app(test_config=None):
     if test_config:
         app.config.update(test_config)
 
-    # Ensure uploads and instance directories exist
-    Path(app.config["UPLOAD_FOLDER"]).mkdir(parents=True, exist_ok=True)
-    (BASE_DIR / "instance").mkdir(parents=True, exist_ok=True)
+    # Ensure uploads and instance directories exist (with serverless read-only fallback)
+    try:
+        Path(app.config["UPLOAD_FOLDER"]).mkdir(parents=True, exist_ok=True)
+        (BASE_DIR / "instance").mkdir(parents=True, exist_ok=True)
+    except (OSError, PermissionError):
+        app.config["UPLOAD_FOLDER"] = "/tmp/uploads"
+        try:
+            Path("/tmp/uploads").mkdir(parents=True, exist_ok=True)
+        except Exception:
+            pass
 
     # Setup database
     database.init_app(app)
     with app.app_context():
-        database.init_db()
+        try:
+            database.init_db()
+        except Exception as e:
+            logger.warning(f"Initial database migration deferred: {e}")
 
     # Setup CORS for frontend communication
+    cors_origins = list(allowed_origins)
+    if os.getenv("VERCEL") or os.getenv("FLASK_ENV") == "production":
+        cors_origins.append(r"https://.*\.vercel\.app")
+
     CORS(
         app,
-        resources={r"/api/*": {"origins": allowed_origins}},
+        resources={r"/api/*": {"origins": cors_origins}},
         supports_credentials=True,
         allow_headers=["Content-Type", "Authorization"],
         methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"]
