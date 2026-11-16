@@ -186,8 +186,6 @@ def create_app(test_config=None):
 
     @app.route("/api", methods=["GET"])
     @app.route("/api/", methods=["GET"])
-    @app.route("/api/index", methods=["GET"])
-    @app.route("/api/index.py", methods=["GET"])
     def api_root():
         """Friendly API discovery endpoint so visiting /api never throws 404."""
         return jsonify({
