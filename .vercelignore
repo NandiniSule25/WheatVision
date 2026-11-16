@@ -10,6 +10,7 @@ backend/test_*.py
 backend/check_*.py
 backend/convert_models_colab.py
 backend/view_db.py
+*.bat
 
 # Ignore local database and environment secrets
 backend/.env
