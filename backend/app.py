@@ -184,12 +184,36 @@ def create_app(test_config=None):
             "health_check_url": "/api/health"
         }), 200
 
+    @app.route("/api", methods=["GET"])
+    @app.route("/api/", methods=["GET"])
+    @app.route("/api/index", methods=["GET"])
+    @app.route("/api/index.py", methods=["GET"])
+    def api_root():
+        """Friendly API discovery endpoint so visiting /api never throws 404."""
+        return jsonify({
+            "name": "WheatVision API",
+            "status": "online",
+            "health_check": "/api/health",
+            "homepage": "/"
+        }), 200
+
     @app.route("/<path:path>", methods=["GET"])
     def static_proxy(path):
         """Serve frontend static assets (CSS, js, assets)."""
         file_path = FRONTEND_DIR / path
         if file_path.is_file():
             return send_from_directory(str(FRONTEND_DIR), path)
+
+        # Linux case fallback (e.g. css/ vs CSS/)
+        if path.startswith("css/"):
+            alt = FRONTEND_DIR / "CSS" / path[4:]
+            if alt.is_file():
+                return send_from_directory(str(FRONTEND_DIR / "CSS"), path[4:])
+        elif path.startswith("CSS/"):
+            alt = FRONTEND_DIR / "css" / path[4:]
+            if alt.is_file():
+                return send_from_directory(str(FRONTEND_DIR / "css"), path[4:])
+
         return jsonify({"success": False, "error": "Requested resource not found"}), 404
 
     @app.route("/api/health", methods=["GET"])

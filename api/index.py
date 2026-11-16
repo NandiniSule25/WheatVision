@@ -21,7 +21,11 @@ from app import app as flask_app
 def app(environ, start_response):
     """WSGI wrapper ensuring path compatibility on Vercel."""
     path_info = environ.get("PATH_INFO", "")
-    # If Vercel stripped '/api' prefix from path_info, restore it for Flask blueprint matching
-    if path_info and not path_info.startswith("/api") and not path_info.startswith("/static"):
-        environ["PATH_INFO"] = f"/api{path_info}" if path_info.startswith("/") else f"/api/{path_info}"
+    
+    # If Vercel stripped '/api' from an API endpoint, restore it
+    api_endpoints = ("predict", "health", "auth", "references", "history", "contact")
+    trimmed = path_info.lstrip("/")
+    if any(trimmed == ep or trimmed.startswith(f"{ep}/") for ep in api_endpoints):
+        environ["PATH_INFO"] = f"/api/{trimmed}"
+        
     return flask_app(environ, start_response)
