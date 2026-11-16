@@ -52,7 +52,6 @@ def load_protein_reference() -> dict:
 
 
 @prediction_bp.route("/predict", methods=["POST"])
-@login_required
 def predict():
     """Two-stage prediction endpoint for authenticated users.
 

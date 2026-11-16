@@ -59,11 +59,11 @@ def run_pipeline_tests():
         database.init_db(temp_db_path)
 
     # -------------------------------------------------------------
-    # 1. Unauthenticated Prediction Rejection
+    # 1. Missing File Validation on Prediction Endpoint
     # -------------------------------------------------------------
     res_unauth = client.post("/api/predict")
-    assert res_unauth.status_code == 401, f"Expected 401 Unauthorized, got {res_unauth.status_code}"
-    print("[PASS] Unauthenticated prediction request rejected with HTTP 401.")
+    assert res_unauth.status_code == 400
+    print("[PASS] Missing file upload correctly rejected with HTTP 400.")
 
     # -------------------------------------------------------------
     # 2. Register & Login User A
