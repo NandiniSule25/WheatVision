@@ -1,3 +1,4 @@
+from datetime import timedelta
 """WheatVision Backend Application.
 
 Main Flask application setup, database registration, CORS, error handlers,
@@ -56,7 +57,8 @@ def create_app(test_config=None):
         MAX_CONTENT_LENGTH=max_upload_mb * 1024 * 1024,
         SESSION_COOKIE_HTTPONLY=True,
         SESSION_COOKIE_SAMESITE="Lax",
-        SESSION_COOKIE_SECURE=False,  # Set to True when HTTPS is enabled
+        SESSION_COOKIE_SECURE=bool(os.getenv("VERCEL") or os.getenv("FLASK_ENV") == "production"),
+        PERMANENT_SESSION_LIFETIME=timedelta(days=30),
         WHEAT_THRESHOLD=float(os.getenv("WHEAT_THRESHOLD", "0.77")),
         SPECIES_THRESHOLD=float(os.getenv("SPECIES_THRESHOLD", "0.93")),
         DETECTOR_MODEL_PATH=os.getenv("DETECTOR_MODEL_PATH", "models/wheat_detector.onnx"),

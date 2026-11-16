@@ -32,18 +32,31 @@ def load_logged_in_user():
     user_id = session.get("user_id")
     if user_id is None:
         g.user = None
+        return
+
+    db = database.get_db()
+    user = db.execute(
+        "SELECT id, name, email, created_at FROM users WHERE id = ?",
+        (user_id,)
+    ).fetchone()
+
+    if user is None:
+        # In serverless environments (e.g. Vercel), new container instances have a fresh /tmp DB.
+        # Seamlessly auto-restore the user record from the cryptographically signed session cookie
+        # so the user session NEVER unexpectedly expires or kicks them out.
+        email = session.get("user_email") or f"user{user_id}@wheatvision.app"
+        name = session.get("user_name") or "Scientist"
+        try:
+            db.execute(
+                "INSERT OR IGNORE INTO users (id, name, email, password_hash) VALUES (?, ?, ?, ?)",
+                (user_id, name, email, "session-restored")
+            )
+            db.commit()
+            g.user = {"id": user_id, "name": name, "email": email}
+        except Exception:
+            g.user = {"id": user_id, "name": name, "email": email}
     else:
-        db = database.get_db()
-        user = db.execute(
-            "SELECT id, name, email, created_at FROM users WHERE id = ?",
-            (user_id,)
-        ).fetchone()
-        if user is None:
-            # Session exists for deleted or invalid user id
-            session.clear()
-            g.user = None
-        else:
-            g.user = dict(user)
+        g.user = dict(user)
 
 
 @auth_bp.route("/register", methods=["POST"])
@@ -98,6 +111,8 @@ def register():
     # Automatically log the user in after registration
     session.clear()
     session["user_id"] = user_id
+    session["user_name"] = name
+    session["user_email"] = email
     session.permanent = True
 
     return jsonify({
@@ -137,6 +152,8 @@ def login():
 
     session.clear()
     session["user_id"] = user["id"]
+    session["user_name"] = user["name"]
+    session["user_email"] = user["email"]
     session.permanent = True
 
     return jsonify({
